@@ -21,6 +21,7 @@ public class GMCertReq {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC","BC");
         keyPairGenerator.initialize(new ECNamedCurveGenParameterSpec("sm2p256v1"));
         KeyPair keyPair = keyPairGenerator.genKeyPair();
+
         ContentSigner contentSigner = new JcaContentSignerBuilder("SM3withSM2").setProvider("BC").build(keyPair.getPrivate());
 
         PKCS10CertificationRequestBuilder pkcs10CertificationRequestBuilder = new JcaPKCS10CertificationRequestBuilder(new X500Name("CN=test"),keyPair.getPublic());
