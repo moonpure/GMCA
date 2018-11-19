@@ -16,6 +16,7 @@ import org.bouncycastle.jce.X509KeyUsage;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveGenParameterSpec;
 import org.bouncycastle.jce.spec.ECParameterSpec;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.util.encoders.Base64;
@@ -25,6 +26,7 @@ import javax.security.auth.x500.X500Principal;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.Certificate;
@@ -32,7 +34,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
@@ -43,10 +44,12 @@ public class GMCA {
     }
 
     public static void main(String[] args) throws Exception {
+        RSACA.createReq();
+       // GMCertReq.main(null);
         // TestEncryptDecrypt();//测试加解密，公私钥用base64转换
         // genGMCACert();
         //TestCipherEncryptDecrypt();
-        tetsGudongall();
+       // tetsGudongall();
 //        genGMCACert();
 //       genCertWithCaSign();
 //        testDigitalSign();
@@ -446,7 +449,22 @@ public class GMCA {
         }
 
     }
+    public static void saveFile(String path, Object ob) {
+        try {
 
+            FileOutputStream fileOutputStream = new FileOutputStream(path);
+            JcaPEMWriter jcaPEMWriter = new JcaPEMWriter(new PrintWriter(fileOutputStream));
+            jcaPEMWriter.writeObject(ob);
+            jcaPEMWriter.flush();
+
+//            fileOutputStream.write(data);
+//            fileOutputStream.flush();
+//            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static byte[] readFile(String path) throws Exception {
         FileInputStream fileInputStream = new FileInputStream(path);
